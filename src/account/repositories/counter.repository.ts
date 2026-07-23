@@ -17,7 +17,7 @@ export class CounterRepository implements ICounterRepository {
     async getNextSequence(
         counterName: string,
     ): Promise<CounterDocument> {
-        return this.counterModel.findByIdAndUpdate(
+        const counter = await this.counterModel.findByIdAndUpdate(
             counterName,
             {
                 $inc: {
@@ -25,9 +25,16 @@ export class CounterRepository implements ICounterRepository {
                 },
             },
             {
-                upsert: true,
                 new: true,
+                upsert: true,
+                setDefaultsOnInsert: true,
             },
         );
+
+        if (!counter) {
+            throw new Error('Unable to generate account number.');
+        }
+
+        return counter;
     }
 }
