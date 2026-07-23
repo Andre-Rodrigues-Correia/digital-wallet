@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AccountService } from './account.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Counter, CounterSchema } from './schemas/counter.schema';
+import { CounterRepository } from './repositories/counter.repository';
 
 @Module({
   imports: [
@@ -12,6 +13,9 @@ import { Counter, CounterSchema } from './schemas/counter.schema';
       },
     ]),
   ],
-  providers: [AccountService]
+  providers: [AccountService, CounterRepository],
+  exports: [
+    CounterRepository,
+  ],
 })
 export class AccountModule {}
