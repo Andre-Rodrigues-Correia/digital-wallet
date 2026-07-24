@@ -14,8 +14,6 @@ import { CounterRepository } from './repositories/counter.repository';
     ]),
   ],
   providers: [AccountService, CounterRepository],
-  exports: [
-    CounterRepository, AccountService
-  ],
+  exports: [CounterRepository, AccountService],
 })
 export class AccountModule {}
