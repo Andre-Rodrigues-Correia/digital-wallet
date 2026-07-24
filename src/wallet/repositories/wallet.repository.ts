@@ -1,43 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import {
-    Wallet,
-    WalletDocument,
-} from '../schemas/wallet.schema';
-import {
-    ClientSession,
-    Model,
-} from 'mongoose';
-import { IWalletRepository } from './interfaces/wallet.repository.interface';
+import { Model } from 'mongoose';
+
+import { Wallet, WalletDocument } from '../schemas/wallet.schema';
 
 @Injectable()
-export class WalletRepository implements IWalletRepository {
-    constructor(
-        @InjectModel(Wallet.name)
-        private readonly walletModel: Model<WalletDocument>,
-    ) {}
+export class WalletRepository {
+  constructor(
+    @InjectModel(Wallet.name)
+    private readonly walletModel: Model<WalletDocument>,
+  ) {}
 
-    async create(
-        wallet: Partial<Wallet>,
-        session?: ClientSession,
-    ): Promise<WalletDocument> {
-        const [created] = await this.walletModel.create([wallet], {
-            session,
-        });
+  async create(): Promise<WalletDocument> {
+    return this.walletModel.create({
+      balance: 0,
+    });
+  }
 
-        return created;
-    }
+  async findById(id: string): Promise<WalletDocument | null> {
+    return this.walletModel.findById(id).exec();
+  }
 
-    async findByUserId(userId: string) {
-        return this.walletModel.findOne({
-            userId,
-        });
-    }
-
-    async save(
-        wallet: WalletDocument,
-        session?: ClientSession,
-    ) {
-        return wallet.save({ session });
-    }
+  async updateBalance(
+    id: string,
+    balance: number,
+  ): Promise<WalletDocument | null> {
+    return this.walletModel
+      .findByIdAndUpdate(
+        id,
+        {
+          balance,
+        },
+        {
+          returnDocument: 'after',
+        },
+      )
+      .exec();
+  }
 }

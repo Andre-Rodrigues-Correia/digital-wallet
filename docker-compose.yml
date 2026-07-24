@@ -1,14 +1,12 @@
 version: "3.9"
 
 services:
-
   mongodb:
-
     image: mongo:8
 
     container_name: wallet-mongodb
 
-    restart: always
+    restart: unless-stopped
 
     ports:
       - "27017:27017"
@@ -21,5 +19,4 @@ services:
       - mongo_data:/data/db
 
 volumes:
-
   mongo_data:

@@ -1,46 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import {
-    User,
-    UserDocument,
-} from '../schemas/user.schema';
-import {
-    ClientSession,
-    Model,
-} from 'mongoose';
-import { IUserRepository } from './interfaces/user.repository.interface';
+import { Model } from 'mongoose';
+
+import { User, UserDocument } from '../schemas/user.schema';
 
 @Injectable()
-export class UserRepository implements IUserRepository {
-    constructor(
-        @InjectModel(User.name)
-        private readonly userModel: Model<UserDocument>,
-    ) {}
+export class UserRepository {
+  constructor(
+    @InjectModel(User.name)
+    private readonly userModel: Model<UserDocument>,
+  ) {}
 
-    async create(
-        user: Partial<User>,
-        session?: ClientSession,
-    ): Promise<UserDocument> {
-        const [created] = await this.userModel.create([user], {
-            session,
-        });
+  async create(user: Partial<User>): Promise<UserDocument> {
+    return this.userModel.create(user);
+  }
 
-        return created;
-    }
+  async findById(id: string): Promise<UserDocument | null> {
+    return this.userModel.findById(id).exec();
+  }
 
-    async findById(id: string) {
-        return this.userModel.findById(id);
-    }
+  async findByEmail(email: string): Promise<UserDocument | null> {
+    return this.userModel.findOne({ email }).exec();
+  }
 
-    async findByEmail(email: string) {
-        return this.userModel.findOne({
-            email,
-        });
-    }
+  async findByEmailWithPassword(email: string): Promise<UserDocument | null> {
+    return this.userModel.findOne({ email }).select('+password').exec();
+  }
 
-    async findByAccountNumber(accountNumber: string) {
-        return this.userModel.findOne({
-            accountNumber,
-        });
-    }
+  async findByAccountNumber(
+    accountNumber: string,
+  ): Promise<UserDocument | null> {
+    return this.userModel.findOne({ accountNumber }).exec();
+  }
 }

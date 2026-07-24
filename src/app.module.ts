@@ -7,6 +7,8 @@ import { WalletModule } from './wallet/wallet.module';
 import { AccountModule } from './account/account.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongoDatabaseModule } from './confg/database/mongodb.config';
+import { SecurityModule } from './common/security/security.module';
+import { DatabaseModule } from './common/database/database.module';
 
 @Module({
   imports: [
@@ -18,6 +20,9 @@ import { MongoDatabaseModule } from './confg/database/mongodb.config';
     UsersModule,
     WalletModule,
     AccountModule,
+    SecurityModule,
+    DatabaseModule,
+    SecurityModule,
   ],
   controllers: [AppController],
   providers: [AppService],
