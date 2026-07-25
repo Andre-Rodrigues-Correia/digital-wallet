@@ -7,6 +7,7 @@ import { swaggerConfig } from './confg/swagger/swagger.config';
 import { ValidationPipe } from '@nestjs/common';
 
 import helmet from 'helmet';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,12 +17,14 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, document);
 
   app.useGlobalPipes(
-      new ValidationPipe({
-        whitelist: true,
-        transform: true,
-        forbidNonWhitelisted: true,
-      }),
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      forbidNonWhitelisted: true,
+    }),
   );
+
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   app.use(helmet());
 

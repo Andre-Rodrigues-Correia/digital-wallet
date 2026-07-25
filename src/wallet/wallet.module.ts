@@ -16,8 +16,6 @@ import { WalletRepository } from './repositories/wallet.repository';
   ],
   controllers: [WalletController],
   providers: [WalletService, WalletRepository],
-  exports: [
-    WalletRepository,
-  ],
+  exports: [WalletRepository],
 })
 export class WalletModule {}
