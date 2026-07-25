@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongoDatabaseModule } from './confg/database/mongodb.config';
 import { SecurityModule } from './common/security/security.module';
 import { DatabaseModule } from './common/database/database.module';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { DatabaseModule } from './common/database/database.module';
     AccountModule,
     SecurityModule,
     DatabaseModule,
-    SecurityModule,
+    TransactionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

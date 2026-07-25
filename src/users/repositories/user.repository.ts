@@ -27,6 +27,12 @@ export class UserRepository {
     return this.userModel.findOne({ email }).select('+password').exec();
   }
 
+  async findByWalletId(walletId: string): Promise<UserDocument | null> {
+    return this.userModel.findOne({
+      walletId,
+    });
+  }
+
   async findByAccountNumber(
     accountNumber: string,
   ): Promise<UserDocument | null> {

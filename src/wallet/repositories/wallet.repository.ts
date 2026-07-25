@@ -37,4 +37,8 @@ export class WalletRepository {
       )
       .exec();
   }
+
+  async save(wallet: WalletDocument): Promise<WalletDocument> {
+    return wallet.save();
+  }
 }
