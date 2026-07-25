@@ -10,6 +10,7 @@ import { MongoDatabaseModule } from './confg/database/mongodb.config';
 import { SecurityModule } from './common/security/security.module';
 import { DatabaseModule } from './common/database/database.module';
 import { TransactionsModule } from './transactions/transactions.module';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { TransactionsModule } from './transactions/transactions.module';
     SecurityModule,
     DatabaseModule,
     TransactionsModule,
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
