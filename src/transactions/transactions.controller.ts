@@ -36,6 +36,8 @@ import { TransferUseCase } from './use-cases/transfer.use-case';
 import { ListTransactionsUseCase } from './use-cases/list-transactions.use-case';
 import { TransactionHistoryDto } from './dto/transaction-history.dto';
 import { ReverseTransactionUseCase } from './use-cases/reverse-transaction.use-case';
+import { TransactionSummaryUseCase } from './use-cases/transaction-summary.use-case';
+import { TransactionSummaryDto } from './dto/transaction-summary.dto';
 
 @ApiTags('Transactions')
 @Controller('transactions')
@@ -45,6 +47,7 @@ export class TransactionsController {
     private readonly transferUseCase: TransferUseCase,
     private readonly listTransactionsUseCase: ListTransactionsUseCase,
     private readonly reverseTransactionUseCase: ReverseTransactionUseCase,
+    private readonly transactionSummaryUseCase: TransactionSummaryUseCase,
   ) {}
 
   @Post('deposit')
@@ -94,5 +97,19 @@ export class TransactionsController {
   })
   reverse(@Param('id') id: string) {
     return this.reverseTransactionUseCase.execute(id);
+  }
+
+  @Get('summary')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Transaction summary',
+    description: 'Returns a financial summary of the authenticated user.',
+  })
+  @ApiOkResponse({
+    type: TransactionSummaryDto,
+  })
+  summary(@CurrentUser() user: JwtPayload) {
+    return this.transactionSummaryUseCase.execute(user.sub);
   }
 }

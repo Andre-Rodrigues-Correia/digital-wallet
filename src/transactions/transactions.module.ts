@@ -11,6 +11,7 @@ import { DepositUseCase } from './use-cases/deposit.use-case';
 import { TransferUseCase } from './use-cases/transfer.use-case';
 import { ListTransactionsUseCase } from './use-cases/list-transactions.use-case';
 import { ReverseTransactionUseCase } from './use-cases/reverse-transaction.use-case';
+import { TransactionSummaryUseCase } from './use-cases/transaction-summary.use-case';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { ReverseTransactionUseCase } from './use-cases/reverse-transaction.use-c
     DepositUseCase,
     TransferUseCase,
     ListTransactionsUseCase,
-    ReverseTransactionUseCase
+    ReverseTransactionUseCase,
+    TransactionSummaryUseCase
   ],
   exports: [TransactionRepository],
 })
