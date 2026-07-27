@@ -3,7 +3,7 @@ import { IsNumber, IsPositive, IsString } from 'class-validator';
 
 export class TransferDto {
   @ApiProperty({
-    example: '10000002',
+    example: '000002',
     description: 'Destination account number.',
   })
   @IsString()

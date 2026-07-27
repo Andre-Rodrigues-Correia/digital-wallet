@@ -11,7 +11,6 @@ export class MeUseCase {
   ) {}
 
   async execute(userId: string) {
-    console.log(userId);
     const user = await this.userRepository.findById(userId);
 
     if (!user) {
