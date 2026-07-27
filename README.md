@@ -1,98 +1,234 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Digital Wallet API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API backend para carteira digital, construída com NestJS + MongoDB.  
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Funcionalidades
 
-## Description
+- **Autenticação**: Registro e login com JWT (Bearer Token)
+- **Conta Digital**: Geração automática de número de conta (6 dígitos)
+- **Carteira**: Criação automática de carteira vinculada ao usuário
+- **Depósito**: Saque de valores na carteira
+- **Transferência**: Transferência entre contas com validação de saldo
+- **Histórico**: Listagem de transações com direção (entrada/saída)
+- **Resumo Financeiro**: Totais de recebidos, enviados, depositados, transferidos
+- **Estorno**: Reversão de depósitos e transferências
+- **Seed de Dados**: 3 usuários de teste criados automaticamente no startup
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Stack
 
-## Project setup
+| Camada | Tecnologia |
+|---|---|
+| Framework | NestJS 11 |
+| Linguagem | TypeScript 5.7 |
+| Banco de Dados | MongoDB 8 (Mongoose 9) |
+| Autenticação | Passport + JWT |
+| Validação | class-validator + class-transformer |
+| Documentação | Swagger/OpenAPI |
+| Segurança | Helmet, bcrypt (12 rounds), CORS |
+| Infraestrutura | Docker Compose |
 
-```bash
-$ npm install
-```
+## Pré-requisitos
 
-## Compile and run the project
+- Node.js >= 18
+- npm
+- Docker (para o MongoDB)
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
+## Instalação
 
 ```bash
-# unit tests
-$ npm run test
+# Clonar o repositório
+git clone <url-do-repositorio>
+cd digital-wallet
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# Instalar dependências
+npm install
 ```
 
-## Deployment
+## Variáveis de Ambiente
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Crie um arquivo `.env` na raiz do projeto:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+```env
+PORT=3000
+MONGO_URI=mongodb://admin:admin@localhost:27017/wallet?authSource=admin
+JWT_SECRET=secret-token
+```
+
+## Inicialização
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# 1. Subir o MongoDB
+docker compose up -d
+
+# 2. Iniciar a aplicação (dev)
+npm run start:dev
+
+# 3. Acessar a aplicação
+# API:       http://localhost:3000
+# Swagger:   http://localhost:3000/docs
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Scripts Disponíveis
 
-## Resources
+| Script | Descrição |
+|---|---|
+| `npm run start` | Iniciar servidor |
+| `npm run start:dev` | Iniciar em modo watch (hot reload) |
+| `npm run build` | Compilar para produção |
+| `npm run start:prod` | Iniciar em produção |
+| `npm run test` | Executar testes unitários |
+| `npm run test:e2e` | Executar testes end-to-end |
+| `npm run test:cov` | Gerar relatório de cobertura |
+| `npm run lint` | Lint + auto-fix |
+| `npm run format` | Formatar código com Prettier |
 
-Check out a few resources that may come in handy when working with NestJS:
+## Endpoints da API
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Autenticação
 
-## Support
+| Método | Rota | Autenticação | Descrição |
+|---|---|---|---|
+| `POST` | `/auth/register` | Não | Registrar novo usuário |
+| `POST` | `/auth/login` | Não | Login |
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+**Register — Request:**
 
-## Stay in touch
+```json
+{
+  "name": "João Silva",
+  "email": "joao@email.com",
+  "password": "Password123"
+}
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+**Login — Request:**
 
-## License
+```json
+{
+  "email": "joao@email.com",
+  "password": "Password123"
+}
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+**Response (ambos):**
+
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIs...",
+  "user": {
+    "id": "665f1a2b3c4d5e6f7a8b9c0d",
+    "name": "João Silva",
+    "email": "joao@email.com",
+    "accountNumber": "10000001"
+  }
+}
+```
+
+### Usuário
+
+| Método | Rota | Autenticação | Descrição |
+|---|---|---|---|
+| `GET` | `/users/me` | JWT | Dados do usuário + saldo |
+
+**Response:**
+
+```json
+{
+  "id": "665f1a2b3c4d5e6f7a8b9c0d",
+  "name": "João Silva",
+  "email": "joao@email.com",
+  "accountNumber": "10000001",
+  "balance": 1000
+}
+```
+
+### Transações
+
+| Método | Rota | Autenticação | Descrição |
+|---|---|---|---|
+| `POST` | `/transactions/deposit` | JWT | Depositar valor |
+| `POST` | `/transactions/transfer` | JWT | Transferir para outra conta |
+| `GET` | `/transactions` | JWT | Histórico de transações |
+| `GET` | `/transactions/summary` | JWT | Resumo financeiro |
+| `POST` | `/transactions/:id/reverse` | JWT | Estornar transação |
+
+**Deposit — Request:**
+
+```json
+{
+  "amount": 500
+}
+```
+
+**Transfer — Request:**
+
+```json
+{
+  "accountNumber": "10000002",
+  "amount": 200
+}
+```
+
+## Dados de Seed (Teste)
+
+A aplicação cria automaticamente 3 usuários ao iniciar:
+
+| Nome | Email | Conta | Senha | Saldo Inicial |
+|---|---|---|---|---|
+| João Silva | joao@email.com | 10000001 | Password123 | R$ 1.000,00 |
+| Maria Souza | maria@email.com | 10000002 | Password123 | R$ 1.000,00 |
+| Pedro Santos | pedro@email.com | 10000003 | Password123 | R$ 1.000,00 |
+
+## Arquitetura
+
+```
+src/
+├── main.ts                    # Bootstrap da aplicação
+├── app.module.ts              # Módulo raiz
+│
+├── auth/                      # Autenticação (register, login, JWT)
+├── users/                     # Usuários (perfil, repositório)
+├── wallet/                    # Carteira (saldo)
+├── account/                   # Geração de número de conta
+├── transactions/              # Transações (depósito, transferência, estorno)
+├── seed/                      # Seed de dados iniciais
+│
+├── common/                    # Compartilhado
+│   ├── constants/
+│   ├── database/              # Módulo MongoDB global
+│   ├── decorators/            # @CurrentUser()
+│   ├── dto/
+│   ├── filters/               # HttpExceptionFilter global
+│   ├── responses/             # ApiResponse<T>
+│   └── security/              # PasswordService, JwtAuthGuard
+│
+└── confg/                     # Configuração
+    ├── database/              # Conexão MongoDB
+    └── swagger/               # Configuração OpenAPI
+```
+
+**Padrão adotado:** Clean Architecture com Use Cases isolados por módulo.
+
+## Banco de Dados
+
+**MongoDB 8** via Docker Compose.
+
+| Coleção | Descrição |
+|---|---|
+| `users` | Nome, email (único), senha (oculta por padrão), número da conta (único), referência à carteira |
+| `wallets` | Saldo (padrão: 0) |
+| `transactions` | Tipo (DEPOSIT/TRANSFER), status, valor, descrição, carteiras envolvidas, dados de estorno |
+| `counters` | Contador auto-incremental para números de conta |
+
+## Segurança
+
+- **JWT**: Autenticação via Bearer Token
+- **bcrypt**: Hash de senhas com 12 rounds
+- **Helmet**: Headers HTTP seguros
+- **CORS**: Restrito a `http://localhost:3001`
+- **ValidationPipe**: Whitelist + transform + forbidNonWhitelisted
+- **Senha oculta**: Campo `password` não retornado nas queries (`select: false`)
+
+## Licença
+
+UNLICENSED
